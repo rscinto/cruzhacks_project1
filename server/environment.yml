@@ -1,0 +1,8 @@
+name: ch2020
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - flask=1.1.1
+  - python=3.8.1
+  - requests=2.22.0
