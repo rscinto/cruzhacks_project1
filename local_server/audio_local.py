@@ -1,8 +1,8 @@
 import speech_recognition as sr
 import pyaudio
 
-recycling = ["can","cup"]
-trash = ["chip","bag"]
+recycling = ["can","cup", "aluminum", "foil", "plastic", "carton", "metal", "bottle"]
+trash = ["chip","bag","straw", "tissue", "single-use"]
 
 # get audio from the microphone
 r = sr.Recognizer()
