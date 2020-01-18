@@ -1,14 +1,3 @@
-#%%
-# from time import sleep
-# import serial
-
-# ser = serial.Serial('COM3', 9600)
-
-
-# while True:
-#     print( ser.readline().decode("utf-8") ) # Read the newest output from the Arduino
-#     sleep(.1) # Delay for one tenth of a second
-
 # %%
 from time import sleep
 import atexit
