@@ -5,9 +5,10 @@ import serial
 import requests
 import platform
 
-recycling = ["can","cup"]
-trash = ["chip","bag"]
-garbage = "17074946135"
+
+response  = requests.get('https://storeie5k4smygdd3w.blob.core.windows.net/cruzhacks/json_test.json')
+data = json.loads(response.text)
+
 
 PLATFORM = platform.system()
 if PLATFORM == "Windows":
@@ -35,14 +36,15 @@ def record_audio():
 
 
 def open_trash_door(raw_text):
-   for recycling_name in recycling:
+   for recycling_item in data['recycling']:
          if recycling_name in raw_text:
             print("Open Recycle can!")
             ser.write("100".encode())
             response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": garbage, "recycle": 1})
             print(response)
             return
-   for trash_name in trash:
+   
+   for trash_name in data['trash']:
          if trash_name in raw_text:
             print("Open Trash can!")
             ser.write("100".encode())
