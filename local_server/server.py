@@ -3,10 +3,17 @@ from time import sleep
 import speech_recognition as sr
 import serial
 import requests
+import platform
 
 recycling = ["can","cup"]
 trash = ["chip","bag"]
 garbage = "17074946135"
+
+PLATFORM = platform.system()
+if PLATFORM == "Windows":
+	COM_PORT = "COM3"
+else:
+	COM_PORT = '/dev/cu.usbmodem1411'
 
 
 
@@ -46,8 +53,21 @@ def open_trash_door(raw_text):
         
          
 if __name__ == "__main__":
-   with serial.Serial("COM3",9600) as ser:
-      while True:
-         arduino_button_state = ser.readline().decode("utf-8").strip() #decode byte string from arduino and strip return characters
-         audio_command = record_audio()
-         open_trash_door(audio_command)
+
+# with serial.Serial("COM3",9600) as ser: PC
+	with serial.Serial(COM_PORT,9600) as ser:
+		while True:
+			arduino_button_state = '0' # init
+			while arduino_button_state != '1':
+				arduino_button_state = ser.readline().decode("utf-8").strip() #decode byte string from arduino and strip return characters
+
+			print(arduino_button_state)
+			audio_command = record_audio()
+			open_trash_door(audio_command)
+			arduino_button_state = "0"
+
+
+
+
+
+
