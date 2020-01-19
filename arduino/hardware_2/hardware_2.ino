@@ -78,29 +78,32 @@ void loop() {
 
 }
 
+void move_to(int pos) {
+  int offset = 0;
+  if(pos == 0){
+  offset == 300;
+  }
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+
+  myservo.write(pos);
+  delay(300 + offset);
+  myservo.detach();
+  pinMode(9, INPUT);
+  delay(1000);
+}
+
+
+
 void read_move_servo() {
   if (Serial.available() > 0) {
     input = Serial.parseInt();
-    int angle = 0;
-    for(int i = 0; i <=4){
-      angle += 45;
-      myservo.write(angle);
-      delay(100);
-      
-    }
+    move_to(input);
     Serial.println(input);
     digitalWrite(buzzer_pin,HIGH);
     delay (100);
     digitalWrite(buzzer_pin,LOW);
 
     delay (1000);
-     int angle = 180;
-
-    for(int i = 0; i <=4){
-      angle -= 45;
-      myservo.write(angle);
-            delay(100);
-    }
-
+    move_to(90);
   }
 }
