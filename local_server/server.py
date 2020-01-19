@@ -4,7 +4,11 @@ import speech_recognition as sr
 import serial
 import requests
 import platform
+import json
+import os
 
+# add "export PHONE_NUMBER='<phone_number>'" to bashrc
+PHONE_NUMBER = os.environ.get('PHONE_NUMBER')
 
 response  = requests.get('https://storeie5k4smygdd3w.blob.core.windows.net/cruzhacks/json_test.json')
 data = json.loads(response.text)
@@ -37,18 +41,18 @@ def record_audio():
 
 def open_trash_door(raw_text):
    for recycling_item in data['recycling']:
-         if recycling_name in raw_text:
+         if recycling_item in raw_text:
             print("Open Recycle can!")
             ser.write("100".encode())
-            response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": garbage, "recycle": 1})
+            response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": PHONE_NUMBER, "recycle": 1})
             print(response)
             return
    
-   for trash_name in data['trash']:
-         if trash_name in raw_text:
+   for trash_item in data['trash']:
+         if trash_item in raw_text:
             print("Open Trash can!")
             ser.write("100".encode())
-            response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": garbage, "recycle": 1})
+            response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": PHONE_NUMBER, "recycle": 1})
             print(response)
             return
         
