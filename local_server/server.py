@@ -10,19 +10,6 @@ import warnings
 import serial
 import serial.tools.list_ports
 
-# arduino_ports = [
-    
-  # may need tweaking to match new arduinos
-
-# if not arduino_ports:
-#     raise IOError("No Arduino found")
-# if len(arduino_ports) > 1:
-#     warnings.warn('Multiple Arduinos found - using the first')
-
-# print(arduino_ports[0])
-
-
-
 # add "export PHONE_NUMBER='<phone_number>'" to bashrc
 PHONE_NUMBER = os.environ.get('PHONE_NUMBER')
 
@@ -39,7 +26,6 @@ else:
       if "usbmodem" in p.device:
          print(p.device)
          COM_PORT = p.device
-
 
 
 def record_audio():
@@ -88,7 +74,6 @@ def open_trash_door(raw_text):
       response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": PHONE_NUMBER, "recycle": 1})
       print(response)
 
-        
          
 if __name__ == "__main__":
 
@@ -103,9 +88,3 @@ if __name__ == "__main__":
 			audio_command = record_audio()
 			open_trash_door(audio_command)
 			arduino_button_state = "0"
-
-
-
-
-
-
