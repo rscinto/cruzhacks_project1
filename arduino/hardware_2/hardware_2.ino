@@ -89,7 +89,7 @@ void move_to(int pos) {
   delay(300 + offset);
   myservo.detach();
   pinMode(9, INPUT);
-  delay(1000);
+  delay(3000);
 }
 
 
