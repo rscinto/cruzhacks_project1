@@ -2,9 +2,10 @@
 from time import sleep
 import speech_recognition as sr
 import serial
+import requests
 
-recycling = ["can","cup"]
-trash = ["chip","bag"]
+response  = requests.get('https://storeie5k4smygdd3w.blob.core.windows.net/cruzhacks/json_test.json')
+data = json.loads(response.text)
 
 
 
@@ -24,12 +25,12 @@ def record_audio():
       print("Could not request results; {0}".format(e))
    return "ERROR"
 def open_trash_door(raw_text):
-   for recycling_name in recycling:
+   for recycling_item in data['recycling']:
          if recycling_name in raw_text:
             print("Open Recycle can!")
             ser.write("100".encode())
             break
-   for trash_name in trash:
+   for trash_name in data['trash']:
          if trash_name in raw_text:
             print("Open Trash can!")
             ser.write("100".encode())
