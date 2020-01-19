@@ -12,4 +12,5 @@ A smart trashcan that assists the user in deciding between landfill and recyclin
 
 Check out Eco Droid's marketing site [online here!](http://heaphurlers.tech/)  
 
+Check out a video of Eco Droid in action [online here!](https://youtu.be/5o3Pl6nHvSw)  
 
