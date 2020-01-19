@@ -80,12 +80,20 @@ def open_trash_door(raw_text):
 
 def show_photo(name):
     name_ = name + ".jpg"
-    img_path = pathlib.Path.cwd() / "local_server" / "img" / name_
+    img_path = pathlib.Path.cwd() / "img" / name_
+    print(img_path)
     if img_path.is_file():
-        iexplore = os.path.join(os.environ.get("PROGRAMFILES", "C:\\Program Files"),
-                                "Internet Explorer\\IEXPLORE.EXE")
-        browser = webbrowser.get(iexplore)
-        browser.open(str(img_path))
+        if PLATFORM == "Windows":
+            iexplore = os.path.join(os.environ.get("PROGRAMFILES", "C:\\Program Files"),
+                                    "Internet Explorer\\IEXPLORE.EXE")
+            browser = webbrowser.get(iexplore)
+            browser.get(str(img_path))
+
+        else:
+            browser = webbrowser.get("chrome")
+            browser.open('file://'+str(img_path), new=0)
+
+
     else:
         print("Item not in database found")
            
