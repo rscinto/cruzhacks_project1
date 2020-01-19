@@ -81,14 +81,26 @@ void loop() {
 void read_move_servo() {
   if (Serial.available() > 0) {
     input = Serial.parseInt();
-    myservo.write(input);
+    int angle = 0;
+    for(int i = 0; i <=4){
+      angle += 45;
+      myservo.write(angle);
+      delay(100);
+      
+    }
     Serial.println(input);
     digitalWrite(buzzer_pin,HIGH);
     delay (100);
     digitalWrite(buzzer_pin,LOW);
 
     delay (1000);
-    myservo.write(0);
+     int angle = 180;
+
+    for(int i = 0; i <=4){
+      angle -= 45;
+      myservo.write(angle);
+            delay(100);
+    }
 
   }
 }
