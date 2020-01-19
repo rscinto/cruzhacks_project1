@@ -9,6 +9,8 @@ import os
 import warnings
 import serial
 import serial.tools.list_ports
+import pathlib
+import os,webbrowser
 
 # add "export PHONE_NUMBER='<phone_number>'" to bashrc
 PHONE_NUMBER = os.environ.get('PHONE_NUMBER')
@@ -19,7 +21,7 @@ data = json.loads(response.text)
 
 PLATFORM = platform.system()
 if PLATFORM == "Windows":
-	COM_PORT = "COM3"
+	COM_PORT = "COM4"
 else:
    COM_PORT = ""
    for p in serial.tools.list_ports.comports():
@@ -52,6 +54,7 @@ def open_trash_door(raw_text):
    for recycling_item in data['recycling']:
          if recycling_item in raw_text:
             decided = 1
+            show_photo(recycling_item)
             print("Open Recycle can!")
             ser.write("0".encode())
             response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": PHONE_NUMBER, "recycle": 1})
@@ -61,6 +64,7 @@ def open_trash_door(raw_text):
    for trash_item in data['trash']:
          if trash_item in raw_text:
             decided = 1
+            show_photo(trash_item)
             print("Open Trash can!")
             ser.write("180".encode())
             response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": PHONE_NUMBER, "recycle": 1})
@@ -74,7 +78,17 @@ def open_trash_door(raw_text):
       response = requests.post('https://events-api.notivize.com/applications/91f0d979-965d-4218-8bab-369ce0c1a762/event_flows/b5016281-b0e7-46ba-9af4-05009a5d00d6/events', json={"garbage": PHONE_NUMBER, "recycle": 1})
       print(response)
 
-         
+def show_photo(name):
+    name_ = name + ".jpg"
+    img_path = pathlib.Path.cwd() / "local_server" / "img" / name_
+    if img_path.is_file():
+        iexplore = os.path.join(os.environ.get("PROGRAMFILES", "C:\\Program Files"),
+                                "Internet Explorer\\IEXPLORE.EXE")
+        browser = webbrowser.get(iexplore)
+        browser.open(str(img_path))
+    else:
+        print("Item not in database found")
+           
 if __name__ == "__main__":
 
 # with serial.Serial("COM3",9600) as ser: PC
